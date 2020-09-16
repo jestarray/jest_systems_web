@@ -1,0 +1,75 @@
+* binary <-> decimal conversions (unsigned)
+* binary <-> decimal conversions (signed)
+* hex and binary conversions
+* hex and decimal conversions
+* bitwise operations
+
+* draw pad?
+
+* keyboard shortcuts like enter to submit
+
+* anki scheduling based on how well they do in 5 problem sets (manual scheduling if they want to do classic anki sort by difficulty or amount they want to practice?)
+* comments
+* easy contributions
+* on mobile the check buttons should statically be fixed to the bottom of the screen?
+
+* details is not touchable on smartphones atm
+
+* dark theme?
+* some small css premade template
+
+* option to shuffle answers and questions randomly?
+* option to turn off sound
+
+* optional drawing pad toggle?
+
+need serverside:
+* analytics
+
+* anon mode by default, sign in is optional if you want identification
+
+philisophy:
+Don't learn to solve problems, solve problems to learn!
+
+* The question could be a long string of html itself! since we need a way to display and link to images and code questions, etc
+
+* using a hint twice will count as a wrong answer? the first hint would be where to find the video/resource to solve the problem
+
+* practical typography spacing, etc
+
+schema:
+
+{
+    type: "choice",
+    question: "What is 2 + 2?", //what if the question contains an image?
+    answer: [
+        {text: "4", answer: true},
+        {text: "8", answer: false}
+    ],
+    hints: [], //list of strings? or a string templates
+}
+
+// maybe add regex and etc
+{
+    type: "input",
+    question: "What is 2 + 2?",
+    answer: 4,
+    hints: [], //list of strings? or a string templates
+}
+
+
+//select fact vs false
+{
+    type: "select",
+    question: "Which of the following statements are true about computers",
+    answer: [
+        {text: "computers use 0 and 1s", correct: true}
+        {text: "computers use electricity", correct: true}
+        {text: "computers were invented in the stone era", correct: false}
+    ],
+    hints: [], //list of strings? or a string templates
+}
+
+//eval answers? would need a function that processes the answer 
+
+// comment answers?
