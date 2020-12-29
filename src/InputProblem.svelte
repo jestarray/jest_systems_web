@@ -1,7 +1,7 @@
 <script type="ts">
   export let data;
   export let reset;
-  let DEBUG = true;
+  let DEBUG = false;
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
   export let input_answer = "";

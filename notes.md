@@ -57,27 +57,23 @@ Problem 2.13 requires writing in C the functions that do bitwise | ^(xor)
 
 problem 2.16, bitshifting, logical and arithmetical shift(2 types of right shift) - done
 
+2.17, convert a hex 4 bit number(maybe make this to 8) to both signed and unsigned decimal 
+
+(skipped hex part, merged with 2.19) 2.18, convert hexidecmal to decimal in twos complement form
+
+
 ----------------------------------------------------------------
 
 TODO: 
 Integer representations:
 
-2.17 - 2.19 , convert hex to binary, and then convert the binary to twos compliment <-> unsigned , and write the decimal number 
-
-decimal to binary(twos complement) //negative numbers
-
-Binary(twos complement) to unsigned decimal (note: a negative number converted to an unsigned positive number is most likely a bug. Show C infinite loop bug in debugger)
-
-2.17 , convert a hex 4 bit number(maybe make this to 8) to both signed and unsigned decimal 
-
-2.18, convert hexidecmal to decimal in twos complement forma
-
-2.19 convert a 4 bit number from twos compliment to unsigned
+//TODO! PARSE WHITESPACE OUT BEFORE CHECKING ANSWER?
+2.19 convert a 4-6 bit number from twos compliment binary to both signed and unsigned pairs
 
 (skip) 2.20: Explain how Equation 2.5 applies to the entries in the table you generated when
 solving Problem 2.19. 
 
-2.21: C implicitly casts signed to unsigned in signed and unsigned comparisons
+2.21: C implicitly casts signed to unsigned in signed and unsigned comparisons, Binary(twos complement) to unsigned decimal (note: a negative number converted to an unsigned positive number is most likely a bug. Show C infinite loop bug in debugger)
 
 
 (skip) 2.22 - shows the multiple ways -4 can be represented in variable bit widths. already done this in 2.17 -> 2.19

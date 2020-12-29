@@ -35,12 +35,13 @@ export function generate_twoscomp_to_deci() {
     let num = ran_int(0, -((Math.pow(2, bit_width) / 2) - 1));
 
     let binary = twos_complement(num, bit_width);
-    let twocompdeci = twos_complement_deci(binary, bit_width);
+    let signed_deci = twos_complement_deci(binary, bit_width);
+    let unsigned_deci = parseInt(binary, 2);
     return {
         type: "input",
-        question: `<h2>Given a bit-width of ${bit_width}, convert binary(two's complement) ${binary} to unsigned decimal</h2>`,
-        answer: parseInt(binary, 2),
-        input_answer_hint: "Answer ex: 14",
+        question: `<h2>Given a bit-width of ${bit_width}, convert binary ${binary} , to both signed and unsigned decimal</h2>`,
+        answer: `${signed_deci},${unsigned_deci}`,
+        input_answer_hint: "ex: -30,34",
     };
 }
 
@@ -298,7 +299,7 @@ export let TOC = [
     },
     {
         title: "Binary(two's complement) to Decimal(unsigned)",
-        id: 2.17,
+        id: 2.19,
         num_of_problems: 10,
         problem_index: 0,
         tags: [""],
