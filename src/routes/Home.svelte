@@ -12,7 +12,16 @@
           return res;
         })
       : TOC;
-  console.log(TOC);
+  function calculate_progress(progress) {
+    let solved = 0;
+    for (let item of progress) {
+      if (item.result === "+") {
+        solved++;
+      }
+    }
+    let res = `${solved}/${progress.length}`;
+    return res;
+  }
 </script>
 
 <div>
@@ -29,12 +38,7 @@
       <tr>
         <td>{item.id}</td>
         <td><a href={'#' + convert_to_hash(item.title)}>{item.title}</a></td>
-        <td>
-          {#each item.progress as progress}
-            <span
-              class={progress.result === Result.CORRECT ? 'dot correct' : progress.result === Result.WRONG ? 'dot wrong' : 'dot'}>{progress.result}</span>
-          {/each}
-        </td>
+        <td>{calculate_progress(item.progress)}</td>
         <td><a href={'/#discuss/' + convert_to_hash(item.title)}>Github</a></td>
       </tr>
     {/each}

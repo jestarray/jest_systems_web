@@ -1,6 +1,7 @@
 <script type="ts">
   export let data;
   export let reset;
+  let DEBUG = true;
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
   export let input_answer = "";
@@ -10,7 +11,10 @@
   $: dispatch("update-check", function check_answer() {
     // using coersion here. might have to handle cases where evaluation of the expression needs to be done before checking answer
     // or force everyone to genereate the json evaluted??
-    let is_correct = data.answer == input_answer;
+    //console.log(data.answer);
+    let is_correct =
+      data.answer == input_answer ||
+      data.answer.toString().toLowerCase() == input_answer.toLowerCase();
     return is_correct;
   });
   $: dispatch("valid-input", input_answer.length > 0);
@@ -19,7 +23,7 @@
 <div>
   <div>
     {@html data.question}
-    {data.answer}
+    {#if DEBUG}{data.answer}{/if}
   </div>
 
   <input
