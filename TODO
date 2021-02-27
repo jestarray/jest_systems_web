@@ -4,7 +4,14 @@
 * hex and decimal conversions
 * bitwise operations
 
+* website todo: tachyons css everything because i suck at css
+* video todo: show debugger of infinite loops (unsigned vs signed loop, etc) in the C stuf
+
+* normalize progress on homepage search table because the table field will expand too large given a lot of problems. use some html progressbar
+
 * draw pad?
+
+*strip whitespace 
 
 * keyboard shortcuts like enter to submit
 

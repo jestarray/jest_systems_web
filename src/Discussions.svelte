@@ -8,7 +8,7 @@
   <p>Ask questions, suggest improvements, etc</p>
   <script
     src="https://utteranc.es/client.js"
-    repo="jestarray/blog"
+    repo="jestarray/jest_systems_web"
     issue-term="title"
     theme="github-light"
     crossorigin="anonymous"

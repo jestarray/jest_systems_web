@@ -5,8 +5,9 @@
   import { correct_answer_sound, wrong_answer_sound } from "./audio";
   import { Result } from "./CST";
   import { createEventDispatcher } from "svelte";
+  import type { ProblemSet } from "./generate";
 
-  export let data;
+  export let data: ProblemSet;
   let generate = data.gen;
   //let progress = data.progress;
   /*   export let generate: null | Function; //function
@@ -69,7 +70,118 @@
   $: current_problem = data.data[data.problem_index];
   $: reset_input_answer = false;
   let reset_problems = false;
+
+  //debug
+  console.log(data.data);
 </script>
+
+<title>{data.title}</title>
+<div>
+  {#each all_problems as item, index}
+    <span
+      class={(index === data.problem_index ? 'current ' : '') + (item.result === Result.CORRECT ? 'dot correct' : item.result === Result.WRONG ? 'dot wrong' : 'dot')}
+    >{item.result}</span>
+  {/each}
+  {#if all_problems.length <= 0}
+    <h2>Could not fetch data :(</h2>
+  {:else if current_problem.type === 'input'}
+    <InputProblem
+      reset={reset_input_answer}
+      data={current_problem}
+      on:update-check={(event) => {
+        check_answer = event.detail;
+      }}
+      on:valid-input={(event) => {
+        is_valid = event.detail;
+      }}
+    />
+  {:else if current_problem.type === 'choice'}
+    <ChoiceProblem
+      data={current_problem}
+      on:update-check={(event) => {
+        check_answer = event.detail;
+      }}
+      on:valid-input={(event) => {
+        is_valid = event.detail;
+      }}
+    />
+  {:else if current_problem.type === 'select'}
+    <SelectProblem
+      data={current_problem}
+      on:update-check={(event) => {
+        check_answer = event.detail;
+      }}
+      on:valid-input={(event) => {
+        is_valid = event.detail;
+      }}
+    />
+  {/if}
+  <div class="right-buttons">
+    {#if enable_next_button}
+      <button
+        class="button"
+        on:click={() => {
+          if (data.problem_index < all_problems.length - 1) {
+            data.problem_index += 1;
+            enable_next_button = false;
+            check_answer = null;
+            is_valid = false;
+          } else {
+            finished_all_problems = true;
+            if (finished_all_problems) {
+              if (reset_problems) {
+                if (generate) {
+                  reset_problems = false;
+                  all_problems = all_problems.map(() => {
+                    return generate();
+                  });
+                  all_problems = all_problems;
+                  data.problem_index = 0;
+                  enable_next_button = false;
+                  check_answer = null;
+                  is_valid = false;
+                  finished_all_problems = false;
+                }
+              } else {
+                reset_problems = true;
+              }
+            }
+            /*let got_one_wrong = data.progress.findIndex((el) => {
+              return el.result === Result.WRONG;
+            }); */
+
+            //reset problems
+          }
+          dispatch('save');
+          reset_input_answer = true;
+        }}
+      >{finished_all_problems ? 'Reset' : 'Next'}</button>
+    {:else}
+      <button
+        class={is_valid ? 'button' : 'button disabled'}
+        on:click={() => {
+          reset_input_answer = false;
+          if (check_answer()) {
+            if (all_problems[data.problem_index].tries <= 0) {
+              all_problems[data.problem_index].result = Result.CORRECT;
+            }
+            enable_next_button = true;
+            correct_answer_sound.currentTime = 0;
+            correct_answer_sound.play();
+          } else {
+            wrong_answer_sound.play();
+            all_problems[data.problem_index].tries += 1;
+
+            all_problems[data.problem_index].result = Result.WRONG;
+          }
+          dispatch('save');
+        }}
+        disabled={!is_valid}
+      >Check</button>
+    {/if}
+  </div>
+  <!-- <details>test</details> -->
+</div>
 
 <style>
   .button {
@@ -137,108 +249,3 @@
     background-color: red;
   }
 </style>
-
-<title>{data.title}</title>
-<div>
-  {#each data.progress as item, index}
-    <span
-      class={(index === data.problem_index ? 'current ' : '') + (item.result === Result.CORRECT ? 'dot correct' : item.result === Result.WRONG ? 'dot wrong' : 'dot')}>{item.result}</span>
-  {/each}
-  {#if data.length <= 0}
-    <h2>Could not fetch data :(</h2>
-  {:else if current_problem.type === 'input'}
-    <InputProblem
-      reset={reset_input_answer}
-      data={current_problem}
-      on:update-check={(event) => {
-        check_answer = event.detail;
-      }}
-      on:valid-input={(event) => {
-        is_valid = event.detail;
-      }} />
-  {:else if current_problem.type === 'choice'}
-    <ChoiceProblem
-      data={current_problem}
-      on:update-check={(event) => {
-        check_answer = event.detail;
-      }}
-      on:valid-input={(event) => {
-        is_valid = event.detail;
-      }} />
-  {:else if current_problem.type === 'select'}
-    <SelectProblem
-      data={current_problem}
-      on:update-check={(event) => {
-        check_answer = event.detail;
-      }}
-      on:valid-input={(event) => {
-        is_valid = event.detail;
-      }} />
-  {/if}
-  <div class="right-buttons">
-    {#if enable_next_button}
-      <button
-        class="button"
-        on:click={() => {
-          if (data.problem_index < all_problems.length - 1) {
-            data.problem_index += 1;
-            enable_next_button = false;
-            check_answer = null;
-            is_valid = false;
-          } else {
-            finished_all_problems = true;
-            if (finished_all_problems) {
-              if (reset_problems) {
-                if (generate) {
-                  reset_problems = false;
-                  all_problems = all_problems.map(() => {
-                    return generate();
-                  });
-                  data.data = all_problems;
-                  data.problem_index = 0;
-                  enable_next_button = false;
-                  check_answer = null;
-                  is_valid = false;
-                  finished_all_problems = false;
-                  data.progress = data.data.map(() => {
-                    return { result: Result.UNANSWERED, tries: 0, time: 0, hints: 0 };
-                  });
-                }
-              } else {
-                reset_problems = true;
-              }
-            }
-            /*let got_one_wrong = data.progress.findIndex((el) => {
-              return el.result === Result.WRONG;
-            }); */
-
-            //reset problems
-          }
-          dispatch('save');
-          reset_input_answer = true;
-        }}>{finished_all_problems ? 'Reset' : 'Next'}</button>
-    {:else}
-      <button
-        class={is_valid ? 'button' : 'button disabled'}
-        on:click={() => {
-          reset_input_answer = false;
-          if (check_answer()) {
-            if (data.progress[data.problem_index].tries <= 0) {
-              data.progress[data.problem_index].result = Result.CORRECT;
-            }
-            enable_next_button = true;
-            correct_answer_sound.currentTime = 0;
-            correct_answer_sound.play();
-          } else {
-            wrong_answer_sound.play();
-            data.progress[data.problem_index].tries += 1;
-
-            data.progress[data.problem_index].result = Result.WRONG;
-          }
-          dispatch('save');
-        }}
-        disabled={!is_valid}>Check</button>
-    {/if}
-  </div>
-  <!-- <details>test</details> -->
-</div>

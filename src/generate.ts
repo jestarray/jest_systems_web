@@ -1,3 +1,5 @@
+
+
 // inclusive range
 export function ran_int(min, max) {
     min = Math.ceil(min);
@@ -37,12 +39,14 @@ export function generate_twoscomp_to_deci() {
     let binary = twos_complement(num, bit_width);
     let signed_deci = twos_complement_deci(binary, bit_width);
     let unsigned_deci = parseInt(binary, 2);
-    return {
-        type: "input",
-        question: `<h2>Given a bit-width of ${bit_width}, convert binary ${binary} , to both signed and unsigned decimal</h2>`,
-        answer: `${signed_deci},${unsigned_deci}`,
-        input_answer_hint: "ex: -30,34",
-    };
+    return new Problem("input",
+        `<h2>Given a bit-width of ${bit_width}, convert binary ${binary} , to both signed and unsigned decimal</h2>`,
+        `${signed_deci},${unsigned_deci}`,
+        "ex: -30,34");
+}
+
+export function subscript(string, base) {
+    return `${string}<sub>${base}</sub>`
 }
 
 export function generate_decimal_to_twoscomp() {
@@ -51,80 +55,80 @@ export function generate_decimal_to_twoscomp() {
     let num = ran_int(0, -((Math.pow(2, bit_width) / 2) - 1));
 
     let binary = twos_complement(num, bit_width);
-    return {
-        type: "input",
-        question: `<h2>Given a bit-width of ${bit_width}, convert the decimal number ${num} to two's complement binary</h2>`,
-        answer: binary,
-        input_answer_hint: "Answer ex: 010101",
-    };
+    return new Problem(
+        "input",
+        `<h2>Given a bit-width of ${bit_width}, convert the decimal number ${num} to two's complement binary</h2>`,
+        binary,
+        "Answer ex: 010101",
+    );
 }
 
 export function generate_hex_to_binary() {
     let ran = ran_int(0, Math.pow(2, 24));
     let binary = twos_complement(ran, 0);
     let hex = ran.toString(16);
-    return {
-        type: "input",
-        question: `<h2>Convert ${hex} to binary?</h2>`,
-        answer: binary,
-        input_answer_hint: "Answer ex: 01010",
-    }
+    return new Problem(
+        "input",
+        `<h2>Convert ${subscript(hex, 16)} to binary?</h2>`,
+        binary,
+        "Answer ex: 01010",
+    );
 }
 
 export function generate_binary_to_hex() {
     let ran = ran_int(0, Math.pow(2, 24));
     let binary = twos_complement(ran, 0);
     let hex = ran.toString(16);
-    return {
-        type: "input",
-        question: `<h2>Convert ${binary} to hex?</h2>`,
-        answer: "0x" + hex,
-        input_answer_hint: "Answer ex: 0xbfa1",
-    }
+    return new Problem(
+        "input",
+        `<h2>Convert ${subscript(binary, 2)} to hex?</h2>`,
+        "0x" + hex,
+        "prefix with '0x', example: 0xbfa11",
+    );
 }
 
 export function generate_decimal_to_hex() {
     let ran = ran_int(0, 255);
     let hex = ran.toString(16);
-    return {
-        type: "input",
-        question: `<h2>Convert ${ran} to hex?</h2>`,
-        answer: "0x" + hex,
-        input_answer_hint: "Answer ex: 0xbfa1",
-    }
+    return new Problem(
+        "input",
+        `<h2>Convert ${subscript(ran, 10)} to hex?</h2>`,
+        "0x" + hex,
+        "prefix with '0x', example: 0xbfa1",
+    )
 }
 
 export function generate_hex_to_decimal() {
     let ran = ran_int(0, 255);
     let hex = ran.toString(16);
-    return {
-        type: "input",
-        question: `<h2>Convert ${hex}<sub><i>16</i></sub> to decimal?</h2>`,
-        answer: ran,
-        input_answer_hint: "Answer ex: 2",
-    }
+    return new Problem(
+        "input",
+        `<h2>Convert ${subscript(hex, 16)} to decimal?</h2>`,
+        ran,
+        "Answer ex: 3",
+    );
 }
 
 
 export function generate_decimal_to_binary() {
     let num = ran_int(0, 255);
-    return {
-        type: "input",
-        question: `<h2>Convert ${num} to binary?(8 bits)</h2>`,
-        answer: twos_complement(num, 8),
-        input_answer_hint: "Answer ex: 3",
-    };
+    return new Problem(
+        "input",
+        `<h2>Convert ${subscript(num, 10)} to binary?(8 bits)</h2>`,
+        twos_complement(num, 8),
+        "make sure answer is 8 bits e.g: 00010110",
+    );
 };
 
 export function generate_binary_to_decimal() {
     let num = ran_int(0, 255);
     let binary = twos_complement(num, 8);
-    return {
-        type: "input",
-        question: `<h2>Convert ${binary} to decimal?</h2>`,
-        answer: parseInt(binary, 2).toString(),
-        input_answer_hint: "Answer ex: 4",
-    };
+    return new Problem(
+        "input",
+        `<h2>Convert ${subscript(binary, 2)} to decimal?</h2>`,
+        parseInt(binary, 2).toString(),
+        "Answer ex: 3",
+    );
 };
 
 export function generate_bitwise_vec_operations() {
@@ -144,9 +148,9 @@ export function generate_bitwise_vec_operations() {
         answer = a ^ b;
     }
 
-    return {
-        type: "input",
-        question: `
+    return new Problem(
+        "input",
+        `
         <h2>Given</h2>
         <pre>
         a = ${binary_a}
@@ -154,9 +158,9 @@ export function generate_bitwise_vec_operations() {
         </pre>
         <h2>what is a ${random_operation} b ?</h2>
         `,
-        answer: twos_complement(answer, 8),
-        input_answer_hint: "Answer ex: 000100",
-    }
+        twos_complement(answer, 8),
+        "Answer ex: 000100",
+    );
 }
 
 export function generate_bitwise_shift() {
@@ -179,14 +183,14 @@ export function generate_bitwise_shift() {
 
         answer = binary_a.substring(0, binary_a.length - shift_amount).padStart(binary_a.length, "0");
     }
-    return {
-        type: "input",
-        question: `
+    return new Problem(
+        "input",
+        `
         <h2>What is ${hexed}<sub>16</sub> ${ops[random_index]} ${shift_amount} in binary?</h2>
         `,
-        answer: answer,
-        input_answer_hint: "Answer ex: 000100",
-    }
+        answer,
+        "Answer ex: 000100",
+    );
 }
 
 // converts hash url to title, e.g binary_to_decimal -> Binary To Decimal
@@ -208,103 +212,121 @@ export function convert_to_hash(st: string): string {
     return res;
 }
 
+export class Problem {
+    type: string;
+    question: string;
+    answer: string | number;
+    input_answer_hint: string;
+    result: string;
+    tries: number;
+    time: number;
+    hints: number;
+    constructor(type: string, question: string, answer: string | number, input_answer_hint: string) {
+        this.type = type;
+        this.question = question;
+        this.answer = answer;
+        this.input_answer_hint = input_answer_hint;
+        this.result = "?";
+        this.tries = 0;
+        this.time = 0;
+        this.hints = 0;
+        /* type: "input",
+        question: `<h2>Convert ${subscript(binary, 2)} to hex?</h2>`,
+        answer: "0x" + hex,
+        input_answer_hint: "prefix with '0x', example: 0xbfa11", */
+    }
+}
+
+export class ProblemSet {
+    title: string;
+    id: number;
+    problem_index: number;
+    num_of_problems: number;
+    tags: string[];
+    data: Problem[];
+    gen: Function;
+
+    constructor(title: string, id: number, num_of_problems: number, tags: string[], gen: Function) {
+        this.title = title;
+        this.id = id;
+        this.problem_index = 0;
+        this.num_of_problems = num_of_problems;
+        this.tags = tags;
+        this.data = [];
+        this.gen = gen;
+    }
+}
 
 export let TOC = [
-    {
-        title: "Binary To Decimal",
-        id: 0.0, //for sorting TOC sequentially style 
-        num_of_problems: 5,
-        problem_index: 0,
-        tags: [""], //array of strings for querying,
-        data: [], //array of the problem data 
-        progress: [], // array of results,
-        gen: generate_binary_to_decimal,
-    },
-    {
-        title: "Decimal To Binary",
-        id: 0.1, //for sorting TOC sequentially style 
-        num_of_problems: 5,
-        problem_index: 0,
-        tags: [""], //array of strings for querying,
-        data: [], //array of the problem data 
-        progress: [], // array of results,
-        gen: generate_decimal_to_binary,
-    },
-    {
-        title: "Binary to Hex",
-        id: 2.1,
-        num_of_problems: 5,
-        problem_index: 0,
-        tags: [""],
-        data: [],
-        progress: [],
-        gen: generate_binary_to_hex,
-    },
-    {
-        title: "Hex to Binary",
-        id: 2.1,
-        num_of_problems: 5,
-        problem_index: 0,
-        tags: [""],
-        data: [],
-        progress: [],
-        gen: generate_hex_to_binary,
-    },
-    {
-        title: "Decimal to Hex",
-        id: 2.3,
-        num_of_problems: 5,
-        problem_index: 0,
-        tags: [""],
-        data: [],
-        progress: [],
-        gen: generate_decimal_to_hex,
-    },
-    {
-        title: "Hex to Decimal",
-        id: 2.3,
-        num_of_problems: 5,
-        problem_index: 0,
-        tags: [""],
-        data: [],
-        progress: [],
-        gen: generate_hex_to_decimal,
-    }, {
-        title: "Bitwise Operations",
-        id: 2.8,
-        num_of_problems: 5,
-        problem_index: 0,
-        tags: [""],
-        data: [],
-        progress: [],
-        gen: generate_bitwise_vec_operations,
-    }, {
-        title: "Bitshifting (arithmetic and logical)",
-        id: 2.16,
-        num_of_problems: 20,
-        problem_index: 0,
-        tags: [""],
-        data: [],
-        progress: [],
-        gen: generate_bitwise_shift,
-    }, {
-        title: "Decimal to Binary(two's complement)",
-        id: 2.17,
-        num_of_problems: 10,
-        problem_index: 0,
-        tags: [""],
-        data: [],
-        progress: [],
-        gen: generate_decimal_to_twoscomp,
-    },
-    {
-        title: "Binary(two's complement) to Decimal(unsigned)",
-        id: 2.19,
-        num_of_problems: 10,
-        problem_index: 0,
-        tags: [""],
-        data: [],
-        progress: [],
-        gen: generate_twoscomp_to_deci,
-    },
+    new ProblemSet("Binary To Decimal", 0.0, 5, [], generate_binary_to_decimal),
+    new ProblemSet(
+        "Decimal To Binary",
+        0.1, //for sorting TOC sequentially style 
+        5,
+        [], // array of results,
+        generate_decimal_to_binary,
+    ),
+    new ProblemSet(
+        "Binary to Hex",
+        2.1,
+        5,
+        [],
+        generate_binary_to_hex,
+    ),
+    new ProblemSet(
+        "Hex to Binary",
+        2.1,
+        5,
+        [],
+        generate_hex_to_binary,
+    ),
+    new ProblemSet(
+        "Decimal to Hex",
+        2.3,
+        5,
+        [],
+        generate_decimal_to_hex,
+    ),
+    new ProblemSet(
+        "Hex to Decimal",
+        2.3,
+        5,
+        [],
+        generate_hex_to_decimal,
+    ),
+    new ProblemSet(
+        "Bitwise Operations",
+        2.8,
+        5,
+        [],
+        generate_bitwise_vec_operations,
+    ),
+    new ProblemSet(
+        "Bitshifting (arithmetic and logical)",
+        2.16,
+        20,
+        [],
+        generate_bitwise_shift,
+    ),
+    new ProblemSet(
+        "Decimal to Binary(two's complement)",
+        2.17,
+        10,
+        [],
+        generate_decimal_to_twoscomp,
+    ),
+    new ProblemSet(
+        "Binary(two's complement) to Decimal(unsigned and signed)",
+        2.19,
+        10,
+        [],
+        generate_twoscomp_to_deci,
+    ),
+    new ProblemSet(
+        "Binary addition and subtraction(two's complement)",
+        2.19,
+        10,
+        [],
+        generate_twoscomp_to_deci,
+    ),
 ];

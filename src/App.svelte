@@ -1,5 +1,6 @@
 <script lang="ts">
   import ProblemSet from "./ProblemSet.svelte";
+  import type { ProblemSet as ProblemSetData } from "./generate";
   import Home from "./routes/Home.svelte";
   import Blog from "./routes/Blog.svelte";
   import SingleBlog from "./routes/SingleBlog.svelte";
@@ -13,7 +14,7 @@
   let page;
   let params;
 
-  let section;
+  let section: ProblemSetData | undefined;
   let merged = TOC;
 
   router("/", (ctx, next) => {
@@ -42,49 +43,46 @@
       if (section !== undefined) {
         page = ProblemSet;
         params = section;
+        console.log(params.data);
         params.data =
           params.data.length > 0
             ? params.data
             : Array.from(new Array(section.num_of_problems), () =>
                 params.gen()
               );
-        params.progress =
-          params.progress.length > 0
-            ? params.progress
-            : Array.from(new Array(section.num_of_problems), () => {
-                return {
-                  result: Result.UNANSWERED,
-                  tries: 0,
-                  time: 0,
-                  hints: 0,
-                };
-              });
       } else {
         page = Home;
       }
     }
   });
-  router("/blog", () => (page = Blog));
   router("/discuss", () => {
     page = Discussions;
   });
 
-  router(
-    "/blog/:id",
-
-    // Before we set the component
-    (ctx, next) => {
-      console.log(ctx);
-      params = ctx.params;
-      next();
-    },
-
-    // Finally set the component
-    () => (page = SingleBlog)
-  );
-
   router.start();
 </script>
+
+<nav><a href="/">Home</a></nav>
+<main class="container">
+  <svelte:component
+    this={page}
+    {params}
+    title={params ? params.title : ''}
+    data={params}
+    on:save={() => {
+      localStorage.setItem('save', JSON.stringify(merged));
+      console.log('saving');
+      let saved = localStorage.getItem('save');
+    }}
+  />
+</main>
+
+<!-- 
+
+      progress={params ? params.progress : ''}
+    reset_problems={params ? params.gen : null}
+    problem_index={params ? params.problem_index : 0}
+ -->
 
 <style>
   main {
@@ -99,24 +97,3 @@
     }
   }
 </style>
-
-<nav><a href="/">Home</a> <a href="/blog">Blog</a></nav>
-<main class="container">
-  <svelte:component
-    this={page}
-    {params}
-    title={params ? params.title : ''}
-    data={params}
-    on:save={() => {
-      localStorage.setItem('save', JSON.stringify(merged));
-      console.log('saving');
-      let saved = localStorage.getItem('save');
-    }} />
-</main>
-
-<!-- 
-
-      progress={params ? params.progress : ''}
-    reset_problems={params ? params.gen : null}
-    problem_index={params ? params.problem_index : 0}
- -->

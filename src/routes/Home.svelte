@@ -38,7 +38,7 @@
       <tr>
         <td>{item.id}</td>
         <td><a href={'#' + convert_to_hash(item.title)}>{item.title}</a></td>
-        <td>{calculate_progress(item.progress)}</td>
+        <td>{calculate_progress(item.data)}</td>
         <td><a href={'/#discuss/' + convert_to_hash(item.title)}>Github</a></td>
       </tr>
     {/each}

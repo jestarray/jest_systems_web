@@ -25,9 +25,6 @@
     {@html data.question}
     {#if DEBUG}{data.answer}{/if}
   </div>
-
-  <input
-    type="text"
-    bind:value={input_answer}
-    placeholder={data.input_answer_hint} />
+  <p>{data.input_answer_hint}</p>
+  <input type="text" bind:value={input_answer} />
 </div>

@@ -61,19 +61,21 @@ problem 2.16, bitshifting, logical and arithmetical shift(2 types of right shift
 
 (skipped hex part, merged with 2.19) 2.18, convert hexidecmal to decimal in twos complement form
 
-
-----------------------------------------------------------------
-
-TODO: 
-Integer representations:
-
-//TODO! PARSE WHITESPACE OUT BEFORE CHECKING ANSWER?
 2.19 convert a 4-6 bit number from twos compliment binary to both signed and unsigned pairs
 
 (skip) 2.20: Explain how Equation 2.5 applies to the entries in the table you generated when
 solving Problem 2.19. 
+----------------------------------------------------------------
 
-2.21: C implicitly casts signed to unsigned in signed and unsigned comparisons, Binary(twos complement) to unsigned decimal (note: a negative number converted to an unsigned positive number is most likely a bug. Show C infinite loop bug in debugger)
+//TODO! PARSE WHITESPACE OUT BEFORE CHECKING ANSWER?
+TODO: 
+Integer representations:
+
+2.21: C implicitly casts signed to unsigned in signed and unsigned comparisons, Binary(twos complement) to unsigned decimal (note: a negative number converted to an unsigned positive number is most likely a bug. Show C infinite loop bug in debugger), static analysis can be ran to warn you about this
 
 
 (skip) 2.22 - shows the multiple ways -4 can be represented in variable bit widths. already done this in 2.17 -> 2.19
+
+
+- Enable C warning flags to the max! This reminds me of "use strict" in javascript.
+- The C standard does not guarentee sizes for types like int,etc !!! just typedef to u32, i32.
