@@ -32,6 +32,7 @@
       <th scope="col">Title</th>
       <th scope="col">Progress</th>
       <th scope="col">Discuss</th>
+      <th scope="col">Resources</th>
     </tr>
 
     {#each filtered as item}
@@ -40,6 +41,9 @@
         <td><a href={'#' + convert_to_hash(item.title)}>{item.title}</a></td>
         <td>{calculate_progress(item.data)}</td>
         <td><a href={'/#discuss/' + convert_to_hash(item.title)}>Github</a></td>
+        <td>
+          {#each item.resources as res}<a href={res.url}>{res.kind}</a>{/each}
+        </td>
       </tr>
     {/each}
   </table>

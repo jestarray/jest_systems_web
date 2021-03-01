@@ -245,8 +245,8 @@ export class ProblemSet {
     tags: string[];
     data: Problem[];
     gen: Function;
-
-    constructor(title: string, id: number, num_of_problems: number, tags: string[], gen: Function) {
+    resources: { kind: string, url: string }[]; //ray of links to theoretical content
+    constructor(title: string, id: number, num_of_problems: number, tags: string[], gen: Function, resources: { kind: string, url: string }[] = []) {
         this.title = title;
         this.id = id;
         this.problem_index = 0;
@@ -254,18 +254,14 @@ export class ProblemSet {
         this.tags = tags;
         this.data = [];
         this.gen = gen;
+        this.resources = resources;
     }
 }
 
+let binary_num_resources = [{ kind: "article", url: "https://computers404.netlify.app/06-binarynumbers" }, { kind: "Video", url: "https://youtu.be/bFLB4dyNKUk" }]
 export let TOC = [
-    new ProblemSet("Binary To Decimal", 0.0, 5, [], generate_binary_to_decimal),
-    new ProblemSet(
-        "Decimal To Binary",
-        0.1, //for sorting TOC sequentially style 
-        5,
-        [], // array of results,
-        generate_decimal_to_binary,
-    ),
+    new ProblemSet("Binary To Decimal", 0.0, 5, [], generate_binary_to_decimal, binary_num_resources),
+    new ProblemSet("Decimal To Binary", 0.1, 5, [], generate_decimal_to_binary, binary_num_resources,),
     new ProblemSet(
         "Binary to Hex",
         2.1,
