@@ -42,7 +42,7 @@
         <td>{calculate_progress(item.data)}</td>
         <td><a href={'/#discuss/' + convert_to_hash(item.title)}>Github</a></td>
         <td>
-          {#each item.resources as res}<a href={res.url}>{res.kind}</a>{/each}
+          {#each item.resources as res}<a href={res.url}>{res.kind} </a>{/each}
         </td>
       </tr>
     {/each}

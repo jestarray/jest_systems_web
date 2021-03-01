@@ -258,7 +258,7 @@ export class ProblemSet {
     }
 }
 
-let binary_num_resources = [{ kind: "article", url: "https://computers404.netlify.app/06-binarynumbers" }, { kind: "Video", url: "https://youtu.be/bFLB4dyNKUk" }]
+let binary_num_resources = [{ kind: "article", url: "https://computers404.netlify.app/06-binarynumbers" }, { kind: "video", url: "https://youtu.be/bFLB4dyNKUk" }]
 export let TOC = [
     new ProblemSet("Binary To Decimal", 0.0, 5, [], generate_binary_to_decimal, binary_num_resources),
     new ProblemSet("Decimal To Binary", 0.1, 5, [], generate_decimal_to_binary, binary_num_resources,),
