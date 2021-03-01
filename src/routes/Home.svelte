@@ -47,4 +47,7 @@
       </tr>
     {/each}
   </table>
+  <a href="https://github.com/jestarray/jest_systems_web">Source Code</a>
+  |
+  <a href="https://www.patreon.com/jestarray/">Support my work Patreon!</a>
 </div>
