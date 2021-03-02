@@ -1,6 +1,6 @@
 
 
-// inclusive range
+/// inclusive range
 export function ran_int(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -16,7 +16,10 @@ export function twos_complement(num, width) {
         return binary.padStart(width, "0");
     } else if (binary.length > width) {
         return binary.slice(-width);
+    } else if (binary.length == width) {
+        return binary;
     } else {
+        console.warn("WARNING! CHECK TO MAKE SURE THE BIT-WIDTH FITS WITHIN NUM RANGE");
         return binary;
     }
 }
@@ -40,7 +43,7 @@ export function generate_twoscomp_to_deci() {
     let signed_deci = twos_complement_deci(binary, bit_width);
     let unsigned_deci = parseInt(binary, 2);
     return new Problem("input",
-        `<h2>Given a bit-width of ${bit_width}, convert binary ${binary} , to both signed and unsigned decimal</h2>`,
+        `<h2>Given a bit-width of ${bit_width}, convert ${subscript(binary, 2)} , to both signed and unsigned decimal</h2>`,
         `${signed_deci},${unsigned_deci}`,
         "ex: -30,34");
 }
@@ -52,6 +55,7 @@ export function subscript(string, base) {
 export function generate_decimal_to_twoscomp() {
     let bit_width = ran_int(4, 6);
 
+    // reminder! you did account for the max signed negative value!
     let num = ran_int(0, -((Math.pow(2, bit_width) / 2) - 1));
 
     let binary = twos_complement(num, bit_width);
@@ -305,6 +309,41 @@ export let TOC = [
         generate_bitwise_shift,
     ),
     new ProblemSet(
+        "Binary Addition(unsigned)",
+        2.17,
+        10,
+        [],
+        function gen_binary_addtion_unsigned() {
+            let bit_width = ran_int(4, 6);
+            let n1 = ran_int(1, Math.pow(2, bit_width));
+            let n2 = ran_int(1, Math.pow(2, bit_width));
+
+
+            let b1 = twos_complement(n1, bit_width);
+            let b2 = twos_complement(n2, bit_width);
+            let normal_add = n1 + n2;
+            let answer;
+            if (normal_add > (Math.pow(2, bit_width) - 1)) {
+                //overflow, so there are two answers because of wrap around...
+                // problem is which input  comes first..
+                let overflow = normal_add - Math.pow(2, bit_width);
+                answer = `${normal_add},${overflow}`
+            } else {
+                answer = normal_add.toString();
+            }
+
+            return new Problem("input", `
+            <h2>Given a bit width of ${bit_width}</h2>
+            <pre>
+              ${b1}
+            + ${b2}
+            _______
+            </pre>
+            Convert the answer to decimal`, `${answer}`, "if the answer overflows, write the overflow case last appened by a comma, e.g 10,3");
+        },
+        [{ kind: "article", url: "https://computers404.netlify.app/07-binary_addition" }]
+    ),
+    new ProblemSet(
         "Decimal to Binary(two's complement)",
         2.17,
         10,
@@ -323,6 +362,16 @@ export let TOC = [
         2.19,
         10,
         [],
-        generate_twoscomp_to_deci,
+        function gen_add_sub_problem() {
+            //TODO
+            let bit_width = ran_int(4, 6);
+
+            let num = ran_int(0, -((Math.pow(2, bit_width) / 2) - 1));
+            let num2 = ran_int(0, -((Math.pow(2, bit_width) / 2) - 1));
+
+            let binary = twos_complement(num, bit_width);
+            let signed_deci = twos_complement_deci(binary, bit_width);
+            let unsigned_deci = parseInt(binary, 2);
+        },
     ),
 ];

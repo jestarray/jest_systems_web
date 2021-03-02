@@ -43,9 +43,9 @@ Problem 2.6: an exercise that shows a loose correlation between ints and floats 
 
 Problem 2.7 ascii encoding of characters (skip)
 
-Problem 2.8 bitwise and or not xor  - done
+- [x] Problem 2.8 bitwise and or not xor
 
-Problem 2.9 color bitwise exercise(skip since its too specific?)
+Problem 2.9 color bitwise exercise(skip, a bit too easy)
 
 Problem 2.10-2.11 bitwise xor swap(C exercise, skip?)
 
@@ -55,7 +55,7 @@ Problem 2.13 requires writing in C the functions that do bitwise | ^(xor)
 
 2.14 - 2.15 , too easy! its about coersion of true and false. anything non-zero is true while false is 0
 
-problem 2.16, bitshifting, logical and arithmetical shift(2 types of right shift) - done
+- [x] problem 2.16, bitshifting, logical and arithmetical shift(2 types of right shift) - done
 
 2.17, convert a hex 4 bit number(maybe make this to 8) to both signed and unsigned decimal 
 
