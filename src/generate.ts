@@ -63,7 +63,7 @@ export function generate_decimal_to_twoscomp() {
         "input",
         `<h2>Given a bit-width of ${bit_width}, convert the decimal number ${num} to two's complement binary</h2>`,
         binary,
-        "Answer ex: 010101",
+        "answer_hint: input must be the same length as the bit-width (pre-pad with 0s or 1s)",
     );
 }
 
@@ -358,16 +358,16 @@ export let TOC = [
         generate_twoscomp_to_deci,
     ),
     new ProblemSet(
-        "Binary addition and subtraction(two's complement)",
+        "Binary subtraction(two's complement)",
         2.19,
         10,
         [],
-        function gen_add_sub_problem() {
+        function gen_sub_problem() {
             //TODO
             let bit_width = ran_int(4, 6);
 
-            let num = ran_int(0, -((Math.pow(2, bit_width) / 2) - 1));
-            let num2 = ran_int(0, -((Math.pow(2, bit_width) / 2) - 1));
+            let num = ran_int(1, -((Math.pow(2, bit_width) / 2) - 1));
+            let num2 = ran_int(1, -((Math.pow(2, bit_width) / 2) - 1));
 
             let binary = twos_complement(num, bit_width);
             let signed_deci = twos_complement_deci(binary, bit_width);
