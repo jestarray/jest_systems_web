@@ -54,9 +54,10 @@ export function subscript(string, base) {
 
 export function generate_decimal_to_twoscomp() {
     let bit_width = ran_int(4, 6);
+    let INMAX = (-Math.pow(2, bit_width) / 2) - 1;
 
     // reminder! you did account for the max signed negative value!
-    let num = ran_int(0, -((Math.pow(2, bit_width) / 2) - 1));
+    let num = ran_int(0, INMAX);
 
     let binary = twos_complement(num, bit_width);
     return new Problem(
@@ -315,15 +316,16 @@ export let TOC = [
         [],
         function gen_binary_addtion_unsigned() {
             let bit_width = ran_int(4, 6);
-            let n1 = ran_int(1, Math.pow(2, bit_width));
-            let n2 = ran_int(1, Math.pow(2, bit_width));
+            let UMAX = Math.pow(2, bit_width) - 1;
 
+            let n1 = ran_int(1, UMAX);
+            let n2 = ran_int(1, UMAX);
 
             let b1 = twos_complement(n1, bit_width);
             let b2 = twos_complement(n2, bit_width);
             let normal_add = n1 + n2;
             let answer;
-            if (normal_add > (Math.pow(2, bit_width) - 1)) {
+            if (normal_add > UMAX) {
                 //overflow, so there are two answers because of wrap around...
                 // problem is which input  comes first..
                 let overflow = normal_add - Math.pow(2, bit_width);
