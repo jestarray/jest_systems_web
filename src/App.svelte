@@ -67,12 +67,12 @@
   <svelte:component
     this={page}
     {params}
-    title={params ? params.title : ''}
+    title={params ? params.title : ""}
     data={params}
     on:save={() => {
-      localStorage.setItem('save', JSON.stringify(merged));
-      console.log('saving');
-      let saved = localStorage.getItem('save');
+      localStorage.setItem("save", JSON.stringify(merged));
+      console.log("saving");
+      let saved = localStorage.getItem("save");
     }}
   />
 </main>
@@ -83,7 +83,6 @@
     reset_problems={params ? params.gen : null}
     problem_index={params ? params.problem_index : 0}
  -->
-
 <style>
   main {
     display: flex;

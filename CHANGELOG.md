@@ -1,3 +1,7 @@
+## v0.1.2
++ Fixed answer hint of binary addition unsigned
++ Added  Binary Subtraction (twos complement) no pos or neg overflow
+
 ## v0.1.1
 + Added resource links links
 + Fixed off by one issue

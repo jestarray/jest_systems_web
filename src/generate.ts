@@ -64,7 +64,7 @@ export function generate_decimal_to_twoscomp() {
         "input",
         `<h2>Given a bit-width of ${bit_width}, convert the decimal number ${num} to two's complement binary</h2>`,
         binary,
-        "answer_hint: input must be the same length as the bit-width (pre-pad with 0s or 1s)",
+        "answer hint: input must be the same length as the bit-width (pre-pad with 0s or 1s)",
     );
 }
 
@@ -341,7 +341,7 @@ export let TOC = [
             + ${b2}
             _______
             </pre>
-            Convert the answer to decimal`, `${answer}`, "if the answer overflows, write the overflow case last appened by a comma, e.g 10,3");
+            Convert the answer to decimal`, `${answer}`, "If there are two answers, write the one with the highest number first comma second answer e.g 10,3");
         },
         [{ kind: "article", url: "https://computers404.netlify.app/07-binary_addition" }]
     ),
@@ -360,20 +360,34 @@ export let TOC = [
         generate_twoscomp_to_deci,
     ),
     new ProblemSet(
-        "Binary subtraction(two's complement)",
+        "Binary Subtraction(two's complement)",
         2.19,
         10,
         [],
         function gen_sub_problem() {
-            //TODO
+            //twos complement only! no need to do unsigned + signed
             let bit_width = ran_int(4, 6);
+            //this will never overflow! maybe do a seperate exercise about overflow
+            let TMIN = -((Math.pow(2, bit_width) / 2) - 1);
+            let TMAX = ((Math.pow(2, bit_width) / 2));
 
-            let num = ran_int(1, -((Math.pow(2, bit_width) / 2) - 1));
-            let num2 = ran_int(1, -((Math.pow(2, bit_width) / 2) - 1));
+            //decimal
+            let d1 = ran_int(1, TMIN);
+            let d2 = ran_int(1, TMAX);
 
-            let binary = twos_complement(num, bit_width);
-            let signed_deci = twos_complement_deci(binary, bit_width);
-            let unsigned_deci = parseInt(binary, 2);
+            let b1 = twos_complement(d1, bit_width);
+            let b2 = twos_complement(d2, bit_width);
+
+            let answer = d1 + d2;
+
+            return new Problem("input", `
+            <h2>Given a bit width of ${bit_width}, Subtract these two signed numbers</h2>
+            <pre>
+              ${b1}
+            + ${b2}
+            _______
+            </pre>
+            Write the equivalent equation in decimal`, `${d1}+${d2}=${answer}`, "answer hint: -3+4=1");
         },
     ),
 ];
