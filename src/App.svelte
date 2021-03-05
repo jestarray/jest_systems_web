@@ -62,7 +62,9 @@
   router.start();
 </script>
 
-<nav><a href="/">Home</a></nav>
+<nav class="align-end">
+    <a href="/">Home</a>
+</nav>
 <main class="container">
   <svelte:component
     this={page}

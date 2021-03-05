@@ -90,6 +90,10 @@ thead  {
     vertical-align: bottom;
 }
 
+.align-end {
+    text-align: end;
+}
+
 /*
 striping:
    even - #fff (white)
