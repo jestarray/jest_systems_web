@@ -65,6 +65,8 @@ Problem 2.13 requires writing in C the functions that do bitwise | ^(xor)
 
 (skip) 2.20: Explain how Equation 2.5 applies to the entries in the table you generated when
 solving Problem 2.19. 
+
+(skip) 2.22 - shows the multiple ways -4 can be represented in variable bit widths. already done this in an earlier exercise 2.17 -> 2.19
 ----------------------------------------------------------------
 
 //TODO! PARSE WHITESPACE OUT BEFORE CHECKING ANSWER?
@@ -73,8 +75,14 @@ Integer representations:
 
 2.21: C implicitly casts signed to unsigned in signed and unsigned comparisons, Binary(twos complement) to unsigned decimal (note: a negative number converted to an unsigned positive number is most likely a bug. Show C infinite loop bug in debugger), static analysis can be ran to warn you about this
 
+2.23 C question bit shifting (todo)
 
-(skip) 2.22 - shows the multiple ways -4 can be represented in variable bit widths. already done this in 2.17 -> 2.19
+2.24 Truncation problem
+2.25 - infinite loop because of implict casting in C
+2.26 - infinite loop because of signed and unsigned in C (2)
+
+2.27 - C exercise
+2.28 (todo)?
 
 
 - Enable C warning flags to the max! This reminds me of "use strict" in javascript.

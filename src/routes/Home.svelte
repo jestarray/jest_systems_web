@@ -38,11 +38,16 @@
     {#each filtered as item}
       <tr>
         <td>{item.id}</td>
-        <td><a href={'#' + convert_to_hash(item.title)}>{item.title}</a></td>
+        <td><a href={"#" + convert_to_hash(item.title)}>{item.title}</a></td>
         <td>{calculate_progress(item.data)}</td>
-        <td><a href={'/#discuss/' + convert_to_hash(item.title)}>Github</a></td>
+        <td><a href={"/#discuss/" + convert_to_hash(item.title)}>Github</a></td>
         <td>
-          {#each item.resources as res}<a href={res.url}>{res.kind} </a>{/each}
+          {#each item.resources as res}<a
+              href={res.url}
+              title={res.url}
+              target="_blank"
+              >{res.kind}
+            </a>{/each}
         </td>
       </tr>
     {/each}

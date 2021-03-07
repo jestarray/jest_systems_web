@@ -1,3 +1,6 @@
+## v0.1.3 2021-03-06
++ Resource links in homepage now open in a new tab
+
 ## v0.1.2
 + Fixed answer hint of binary addition unsigned
 + Added  Binary Subtraction (twos complement) no pos or neg overflow
