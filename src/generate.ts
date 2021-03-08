@@ -36,7 +36,7 @@ export function generate_twoscomp_to_deci() {
   /*  let width_options = [4, 8];
      let ran_choice = ran_int(0, width_options.length - 1);
      let bit_width = width_options[ran_choice]; */
-  let bit_width = ran_int(4, 6);
+  let bit_width = ran_int(4, 8);
 
   let num = ran_int(0, -(Math.pow(2, bit_width) / 2 - 1));
 
@@ -50,7 +50,7 @@ export function generate_twoscomp_to_deci() {
       2
     )} , to both signed and unsigned decimal</h2>`,
     `${signed_deci},${unsigned_deci}`,
-    "ex: -30,34"
+    "<i>answer should be in form signed,unsigned e.g: -30,24</i>"
   );
 }
 
@@ -59,7 +59,7 @@ export function subscript(string, base) {
 }
 
 export function generate_decimal_to_twoscomp() {
-  let bit_width = ran_int(4, 6);
+  let bit_width = ran_int(4, 8);
   let INMAX = -Math.pow(2, bit_width) / 2 - 1;
 
   // reminder! you did account for the max signed negative value!
@@ -366,7 +366,7 @@ export let TOC = [
     10,
     [],
     function gen_binary_addtion_unsigned() {
-      let bit_width = ran_int(4, 6);
+      let bit_width = ran_int(4, 8);
       let UMAX = Math.pow(2, bit_width) - 1;
 
       let n1 = ran_int(1, UMAX);
@@ -427,7 +427,7 @@ export let TOC = [
     [],
     function gen_sub_problem() {
       //twos complement only! no need to do unsigned + signed
-      let bit_width = ran_int(4, 6);
+      let bit_width = ran_int(4, 8);
       let TMIN = -(Math.pow(2, bit_width) / 2 - 1);
       let TMAX = Math.pow(2, bit_width) / 2;
 
@@ -462,7 +462,7 @@ export let TOC = [
     [],
     function gen_signed_overflow_prob() {
       //twos complement only! no need to do unsigned + signed
-      let bit_width = ran_int(4, 6);
+      let bit_width = ran_int(4, 8);
       //this will never overflow! maybe do a seperate exercise about overflow
       let TMIN = -(Math.pow(2, bit_width) / 2);
       let TMAX = Math.pow(2, bit_width) / 2 - 1;
