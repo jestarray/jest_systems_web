@@ -443,7 +443,7 @@ export let TOC = [
       return new Problem(
         "input",
         `
-            <h2>Given a bit width of ${bit_width}, Subtract these two signed numbers</h2>
+            <h2>Given a bit width of ${bit_width}, Subtract these two signed numbers and write the equiv equation in decimal</h2>
             <pre>
               ${b1}
             + ${b2}
@@ -495,19 +495,16 @@ export let TOC = [
         let badd = binary_add(b1, b2);
         answer = twos_complement_deci(badd, bit_width);
       }
-
-      /* console.log("b-add " + binary_add(b1, b2)); // 10110 + 11001 WRONG */
-
       return new Problem(
         "input",
         `
-            <h2>Given a bit width of ${bit_width}, Add these two signed numbers</h2>
+            <h2>Given a bit width of ${bit_width}, Write the equivalent equation in decimal</h2>
             <pre>
               ${b1}
             + ${b2}
             _______
             </pre>
-            Write the equivalent equation in decimal`,
+            both numbers are signed`,
         `${d1}+${d2}=${answer}`,
         "answer hint: -3+4=1"
       );
