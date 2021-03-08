@@ -1,161 +1,166 @@
-
-
 /// inclusive range
 export function ran_int(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min);
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 //deci to binary
-export function twos_complement(num, width) {
-    // zero shift right converts the number to a signed 32 bit number?
-    let binary = (num >>> 0).toString(2);
-    if (binary.length < width) {
-        //pad with 0s
-        return binary.padStart(width, "0");
-    } else if (binary.length > width) {
-        return binary.slice(-width);
-    } else if (binary.length == width) {
-        return binary;
-    } else {
-        console.warn("WARNING! CHECK TO MAKE SURE THE BIT-WIDTH FITS WITHIN NUM RANGE");
-        return binary;
-    }
+//tdo! change name as it just normalizes a deci number to bianry given a bit width
+export function normalize_bwidth(num, width) {
+  // zero shift right converts the number to a signed 32 bit number?
+  let binary = (num >>> 0).toString(2);
+  if (binary.length < width) {
+    //pad with 0s
+    return binary.padStart(width, "0");
+  } else if (binary.length > width) {
+    return binary.slice(-width);
+  } else if (binary.length == width) {
+    return binary;
+  } else {
+    console.warn(
+      "WARNING! CHECK TO MAKE SURE THE BIT-WIDTH FITS WITHIN NUM RANGE"
+    );
+    return binary;
+  }
 }
 
 // binary to twos complement decimal
 // 1010 -> -6
 export function twos_complement_deci(binary, width) {
-    let sign_weight = -(Math.pow(2, width));
-    let posi = twos_complement(parseInt(binary, 2), width);
-    return sign_weight + parseInt(posi, 2);
+  let sign_weight = -Math.pow(2, width - 1);
+  let posi = normalize_bwidth(parseInt(binary, 2), width - 1);
+  return sign_weight + parseInt(posi, 2);
 }
 export function generate_twoscomp_to_deci() {
-    /*  let width_options = [4, 8];
+  /*  let width_options = [4, 8];
      let ran_choice = ran_int(0, width_options.length - 1);
      let bit_width = width_options[ran_choice]; */
-    let bit_width = ran_int(4, 6);
+  let bit_width = ran_int(4, 6);
 
-    let num = ran_int(0, -((Math.pow(2, bit_width) / 2) - 1));
+  let num = ran_int(0, -(Math.pow(2, bit_width) / 2 - 1));
 
-    let binary = twos_complement(num, bit_width);
-    let signed_deci = twos_complement_deci(binary, bit_width);
-    let unsigned_deci = parseInt(binary, 2);
-    return new Problem("input",
-        `<h2>Given a bit-width of ${bit_width}, convert ${subscript(binary, 2)} , to both signed and unsigned decimal</h2>`,
-        `${signed_deci},${unsigned_deci}`,
-        "ex: -30,34");
+  let binary = normalize_bwidth(num, bit_width);
+  let signed_deci = twos_complement_deci(binary, bit_width);
+  let unsigned_deci = parseInt(binary, 2);
+  return new Problem(
+    "input",
+    `<h2>Given a bit-width of ${bit_width}, convert ${subscript(
+      binary,
+      2
+    )} , to both signed and unsigned decimal</h2>`,
+    `${signed_deci},${unsigned_deci}`,
+    "ex: -30,34"
+  );
 }
 
 export function subscript(string, base) {
-    return `${string}<sub>${base}</sub>`
+  return `${string}<sub>${base}</sub>`;
 }
 
 export function generate_decimal_to_twoscomp() {
-    let bit_width = ran_int(4, 6);
-    let INMAX = (-Math.pow(2, bit_width) / 2) - 1;
+  let bit_width = ran_int(4, 6);
+  let INMAX = -Math.pow(2, bit_width) / 2 - 1;
 
-    // reminder! you did account for the max signed negative value!
-    let num = ran_int(0, INMAX);
+  // reminder! you did account for the max signed negative value!
+  let num = ran_int(0, INMAX);
 
-    let binary = twos_complement(num, bit_width);
-    return new Problem(
-        "input",
-        `<h2>Given a bit-width of ${bit_width}, convert the decimal number ${num} to two's complement binary</h2>`,
-        binary,
-        "answer hint: input must be the same length as the bit-width (pre-pad with 0s or 1s)",
-    );
+  let binary = normalize_bwidth(num, bit_width);
+  return new Problem(
+    "input",
+    `<h2>Given a bit-width of ${bit_width}, convert the decimal number ${num} to two's complement binary</h2>`,
+    binary,
+    "answer hint: input must be the same length as the bit-width (pre-pad with 0s or 1s)"
+  );
 }
 
 export function generate_hex_to_binary() {
-    let ran = ran_int(0, Math.pow(2, 24));
-    let binary = twos_complement(ran, 0);
-    let hex = ran.toString(16);
-    return new Problem(
-        "input",
-        `<h2>Convert ${subscript(hex, 16)} to binary?</h2>`,
-        binary,
-        "Answer ex: 01010",
-    );
+  let ran = ran_int(0, Math.pow(2, 24));
+  let binary = normalize_bwidth(ran, 0);
+  let hex = ran.toString(16);
+  return new Problem(
+    "input",
+    `<h2>Convert ${subscript(hex, 16)} to binary?</h2>`,
+    binary,
+    "Answer ex: 01010"
+  );
 }
 
 export function generate_binary_to_hex() {
-    let ran = ran_int(0, Math.pow(2, 24));
-    let binary = twos_complement(ran, 0);
-    let hex = ran.toString(16);
-    return new Problem(
-        "input",
-        `<h2>Convert ${subscript(binary, 2)} to hex?</h2>`,
-        "0x" + hex,
-        "prefix with '0x', example: 0xbfa11",
-    );
+  let ran = ran_int(0, Math.pow(2, 24));
+  let binary = normalize_bwidth(ran, 0);
+  let hex = ran.toString(16);
+  return new Problem(
+    "input",
+    `<h2>Convert ${subscript(binary, 2)} to hex?</h2>`,
+    "0x" + hex,
+    "prefix with '0x', example: 0xbfa11"
+  );
 }
 
 export function generate_decimal_to_hex() {
-    let ran = ran_int(0, 255);
-    let hex = ran.toString(16);
-    return new Problem(
-        "input",
-        `<h2>Convert ${subscript(ran, 10)} to hex?</h2>`,
-        "0x" + hex,
-        "prefix with '0x', example: 0xbfa1",
-    )
+  let ran = ran_int(0, 255);
+  let hex = ran.toString(16);
+  return new Problem(
+    "input",
+    `<h2>Convert ${subscript(ran, 10)} to hex?</h2>`,
+    "0x" + hex,
+    "prefix with '0x', example: 0xbfa1"
+  );
 }
 
 export function generate_hex_to_decimal() {
-    let ran = ran_int(0, 255);
-    let hex = ran.toString(16);
-    return new Problem(
-        "input",
-        `<h2>Convert ${subscript(hex, 16)} to decimal?</h2>`,
-        ran,
-        "Answer ex: 3",
-    );
+  let ran = ran_int(0, 255);
+  let hex = ran.toString(16);
+  return new Problem(
+    "input",
+    `<h2>Convert ${subscript(hex, 16)} to decimal?</h2>`,
+    ran,
+    "Answer ex: 3"
+  );
 }
 
-
 export function generate_decimal_to_binary() {
-    let num = ran_int(0, 255);
-    return new Problem(
-        "input",
-        `<h2>Convert ${subscript(num, 10)} to binary?(8 bits)</h2>`,
-        twos_complement(num, 8),
-        "make sure answer is 8 bits e.g: 00010110",
-    );
-};
+  let num = ran_int(0, 255);
+  return new Problem(
+    "input",
+    `<h2>Convert ${subscript(num, 10)} to binary?(8 bits)</h2>`,
+    normalize_bwidth(num, 8),
+    "make sure answer is 8 bits e.g: 00010110"
+  );
+}
 
 export function generate_binary_to_decimal() {
-    let num = ran_int(0, 255);
-    let binary = twos_complement(num, 8);
-    return new Problem(
-        "input",
-        `<h2>Convert ${subscript(binary, 2)} to decimal?</h2>`,
-        parseInt(binary, 2).toString(),
-        "Answer ex: 3",
-    );
-};
+  let num = ran_int(0, 255);
+  let binary = normalize_bwidth(num, 8);
+  return new Problem(
+    "input",
+    `<h2>Convert ${subscript(binary, 2)} to decimal?</h2>`,
+    parseInt(binary, 2).toString(),
+    "Answer ex: 3"
+  );
+}
 
 export function generate_bitwise_vec_operations() {
-    let a = ran_int(0, 255) >>> 0;
-    let b = ran_int(0, 255) >>> 0;
-    let binary_a = twos_complement(a, 8);
-    let binary_b = twos_complement(b, 8);
-    let random_index = ran_int(0, 2);
-    let ops = ["|", "&", "^"];
-    let answer;
-    let random_operation = ops[random_index];
-    if (random_operation === "|") {
-        answer = a | b;
-    } else if (random_operation === "&") {
-        answer = a & b;
-    } else if (random_operation === "^") {
-        answer = a ^ b;
-    }
+  let a = ran_int(0, 255) >>> 0;
+  let b = ran_int(0, 255) >>> 0;
+  let binary_a = normalize_bwidth(a, 8);
+  let binary_b = normalize_bwidth(b, 8);
+  let random_index = ran_int(0, 2);
+  let ops = ["|", "&", "^"];
+  let answer;
+  let random_operation = ops[random_index];
+  if (random_operation === "|") {
+    answer = a | b;
+  } else if (random_operation === "&") {
+    answer = a & b;
+  } else if (random_operation === "^") {
+    answer = a ^ b;
+  }
 
-    return new Problem(
-        "input",
-        `
+  return new Problem(
+    "input",
+    `
         <h2>Given</h2>
         <pre>
         a = ${binary_a}
@@ -163,231 +168,349 @@ export function generate_bitwise_vec_operations() {
         </pre>
         <h2>what is a ${random_operation} b ?</h2>
         `,
-        twos_complement(answer, 8),
-        "Answer ex: 000100",
-    );
+    normalize_bwidth(answer, 8),
+    "Answer ex: 000100"
+  );
 }
 
 export function generate_bitwise_shift() {
-    let a = ran_int(0, 255) >>> 0;
-    let shift_amount = ran_int(1, 6);
-    let hexed = a.toString(16);
-    let binary_a = twos_complement(a, 8);
-    let ops = ["<<", ">>", ">>>"]; //left shift, logical right, arithmetic right
-    let random_index = ran_int(0, ops.length - 1);
-    let answer;
-    if (ops[random_index] === "<<") {
-        answer = binary_a.substring(shift_amount).padEnd(binary_a.length, "0");
-    } else if (ops[random_index] == ">>>") { //arithmetic on signed
-        let fill = "0";
-        if (binary_a.substring(0, 1) == "1") {
-            fill = "1";
-        }
-        answer = binary_a.substring(0, binary_a.length - shift_amount).padStart(binary_a.length, fill);
-    } else { // >> , logical no fill
-
-        answer = binary_a.substring(0, binary_a.length - shift_amount).padStart(binary_a.length, "0");
+  let a = ran_int(0, 255) >>> 0;
+  let shift_amount = ran_int(1, 6);
+  let hexed = a.toString(16);
+  let binary_a = normalize_bwidth(a, 8);
+  let ops = ["<<", ">>", ">>>"]; //left shift, logical right, arithmetic right
+  let random_index = ran_int(0, ops.length - 1);
+  let answer;
+  if (ops[random_index] === "<<") {
+    answer = binary_a.substring(shift_amount).padEnd(binary_a.length, "0");
+  } else if (ops[random_index] == ">>>") {
+    //arithmetic on signed
+    let fill = "0";
+    if (binary_a.substring(0, 1) == "1") {
+      fill = "1";
     }
-    return new Problem(
-        "input",
-        `
+    answer = binary_a
+      .substring(0, binary_a.length - shift_amount)
+      .padStart(binary_a.length, fill);
+  } else {
+    // >> , logical no fill
+
+    answer = binary_a
+      .substring(0, binary_a.length - shift_amount)
+      .padStart(binary_a.length, "0");
+  }
+  return new Problem(
+    "input",
+    `
         <h2>What is ${hexed}<sub>16</sub> ${ops[random_index]} ${shift_amount} in binary?</h2>
         `,
-        answer,
-        "Answer ex: 000100",
-    );
+    answer,
+    "Answer ex: 000100"
+  );
 }
 
 // converts hash url to title, e.g binary_to_decimal -> Binary To Decimal
 export function convert_to_title(st: string): string {
-    let words = st.split("_");
-    let upper_cased = words.map((item) => {
-        return item.charAt(0).toLocaleUpperCase() + item.slice(1);
-    });
-    let result = upper_cased.reduceRight((item, acc) => {
-        return acc + " " + item;
-    });
-    return result;
+  let words = st.split("_");
+  let upper_cased = words.map((item) => {
+    return item.charAt(0).toLocaleUpperCase() + item.slice(1);
+  });
+  let result = upper_cased.reduceRight((item, acc) => {
+    return acc + " " + item;
+  });
+  return result;
 }
 
 export function convert_to_hash(st: string): string {
-    let regex = / /gi;
-    let replace_spaces = st.replace(regex, "_");
-    let res = replace_spaces.toLowerCase();
-    return res;
+  let regex = / /gi;
+  let replace_spaces = st.replace(regex, "_");
+  let res = replace_spaces.toLowerCase();
+  return res;
+}
+/// assumes both binary input strings are same length
+/// throws away the overflow
+//TODO! refactor this to be smoller and can take in arbritary different binary nums
+function binary_add(s1, s2) {
+  if (s1.length === s2.length) {
+    let carry = 0;
+    let res = "";
+    for (let i = s1.length - 1; i >= 0; i--) {
+      let a = s1[i];
+      let b = s2[i];
+      if (a === "1" && b === "1" && carry === 1) {
+        carry = 1;
+        res += "1";
+      } else if (a === "1" && b === "1" && carry === 0) {
+        carry = 1;
+        res += "0";
+      } else if ((a === "1" || b === "1") && carry === 1) {
+        res += "0";
+        carry = 1;
+      } else if ((a === "1" || b === "1") && carry === 0) {
+        res += "1";
+        carry = 0;
+      } else if (carry == 1) {
+        carry = 0;
+        res += "1";
+      } else {
+        res += "0";
+        carry = 0;
+      }
+    }
+    return res.split("").reverse().join("");
+  } else {
+    console.warn("inputs need to be the same length");
+  }
 }
 
 export class Problem {
-    type: string;
-    question: string;
-    answer: string | number;
-    input_answer_hint: string;
-    result: string;
-    tries: number;
-    time: number;
-    hints: number;
-    constructor(type: string, question: string, answer: string | number, input_answer_hint: string) {
-        this.type = type;
-        this.question = question;
-        this.answer = answer;
-        this.input_answer_hint = input_answer_hint;
-        this.result = "?";
-        this.tries = 0;
-        this.time = 0;
-        this.hints = 0;
-        /* type: "input",
+  type: string;
+  question: string;
+  answer: string | number;
+  input_answer_hint: string;
+  result: string;
+  tries: number;
+  time: number;
+  hints: number;
+  constructor(
+    type: string,
+    question: string,
+    answer: string | number,
+    input_answer_hint: string
+  ) {
+    this.type = type;
+    this.question = question;
+    this.answer = answer;
+    this.input_answer_hint = input_answer_hint;
+    this.result = "?";
+    this.tries = 0;
+    this.time = 0;
+    this.hints = 0;
+    /* type: "input",
         question: `<h2>Convert ${subscript(binary, 2)} to hex?</h2>`,
         answer: "0x" + hex,
         input_answer_hint: "prefix with '0x', example: 0xbfa11", */
-    }
+  }
 }
 
 export class ProblemSet {
-    title: string;
-    id: number;
-    problem_index: number;
-    num_of_problems: number;
-    tags: string[];
-    data: Problem[];
-    gen: Function;
-    resources: { kind: string, url: string }[]; //ray of links to theoretical content
-    constructor(title: string, id: number, num_of_problems: number, tags: string[], gen: Function, resources: { kind: string, url: string }[] = []) {
-        this.title = title;
-        this.id = id;
-        this.problem_index = 0;
-        this.num_of_problems = num_of_problems;
-        this.tags = tags;
-        this.data = [];
-        this.gen = gen;
-        this.resources = resources;
-    }
+  title: string;
+  id: number;
+  problem_index: number;
+  num_of_problems: number;
+  tags: string[];
+  data: Problem[];
+  gen: Function;
+  resources: { kind: string; url: string }[]; //ray of links to theoretical content
+  constructor(
+    title: string,
+    id: number,
+    num_of_problems: number,
+    tags: string[],
+    gen: Function,
+    resources: { kind: string; url: string }[] = []
+  ) {
+    this.title = title;
+    this.id = id;
+    this.problem_index = 0;
+    this.num_of_problems = num_of_problems;
+    this.tags = tags;
+    this.data = [];
+    this.gen = gen;
+    this.resources = resources;
+  }
 }
 
-let binary_num_resources = [{ kind: "article", url: "https://computers404.netlify.app/06-binarynumbers" }, { kind: "video", url: "https://youtu.be/bFLB4dyNKUk" }]
+let binary_num_resources = [
+  { kind: "article", url: "https://computers404.netlify.app/06-binarynumbers" },
+  { kind: "video", url: "https://youtu.be/bFLB4dyNKUk" },
+];
 export let TOC = [
-    new ProblemSet("Binary To Decimal", 0.0, 5, [], generate_binary_to_decimal, binary_num_resources),
-    new ProblemSet("Decimal To Binary", 0.1, 5, [], generate_decimal_to_binary, binary_num_resources,),
-    new ProblemSet(
-        "Binary to Hex",
-        2.1,
-        5,
-        [],
-        generate_binary_to_hex,
-    ),
-    new ProblemSet(
-        "Hex to Binary",
-        2.1,
-        5,
-        [],
-        generate_hex_to_binary,
-    ),
-    new ProblemSet(
-        "Decimal to Hex",
-        2.3,
-        5,
-        [],
-        generate_decimal_to_hex,
-    ),
-    new ProblemSet(
-        "Hex to Decimal",
-        2.3,
-        5,
-        [],
-        generate_hex_to_decimal,
-    ),
-    new ProblemSet(
-        "Bitwise Operations",
-        2.8,
-        5,
-        [],
-        generate_bitwise_vec_operations,
-    ),
-    new ProblemSet(
-        "Bitshifting (arithmetic and logical)",
-        2.16,
-        20,
-        [],
-        generate_bitwise_shift,
-    ),
-    new ProblemSet(
-        "Binary Addition(unsigned)",
-        2.17,
-        10,
-        [],
-        function gen_binary_addtion_unsigned() {
-            let bit_width = ran_int(4, 6);
-            let UMAX = Math.pow(2, bit_width) - 1;
+  new ProblemSet(
+    "Binary To Decimal",
+    0.0,
+    5,
+    [],
+    generate_binary_to_decimal,
+    binary_num_resources
+  ),
+  new ProblemSet(
+    "Decimal To Binary",
+    0.1,
+    5,
+    [],
+    generate_decimal_to_binary,
+    binary_num_resources
+  ),
+  new ProblemSet("Binary to Hex", 2.1, 5, [], generate_binary_to_hex),
+  new ProblemSet("Hex to Binary", 2.1, 5, [], generate_hex_to_binary),
+  new ProblemSet("Decimal to Hex", 2.3, 5, [], generate_decimal_to_hex),
+  new ProblemSet("Hex to Decimal", 2.3, 5, [], generate_hex_to_decimal),
+  new ProblemSet(
+    "Bitwise Operations",
+    2.8,
+    5,
+    [],
+    generate_bitwise_vec_operations
+  ),
+  new ProblemSet(
+    "Bitshifting (arithmetic and logical)",
+    2.16,
+    20,
+    [],
+    generate_bitwise_shift
+  ),
+  new ProblemSet(
+    "Binary Addition(unsigned)",
+    2.17,
+    10,
+    [],
+    function gen_binary_addtion_unsigned() {
+      let bit_width = ran_int(4, 6);
+      let UMAX = Math.pow(2, bit_width) - 1;
 
-            let n1 = ran_int(1, UMAX);
-            let n2 = ran_int(1, UMAX);
+      let n1 = ran_int(1, UMAX);
+      let n2 = ran_int(1, UMAX);
 
-            let b1 = twos_complement(n1, bit_width);
-            let b2 = twos_complement(n2, bit_width);
-            let normal_add = n1 + n2;
-            let answer;
-            if (normal_add > UMAX) {
-                //overflow, so there are two answers because of wrap around...
-                // problem is which input  comes first..
-                let overflow = normal_add - Math.pow(2, bit_width);
-                answer = `${normal_add},${overflow}`
-            } else {
-                answer = normal_add.toString();
-            }
+      let b1 = normalize_bwidth(n1, bit_width);
+      let b2 = normalize_bwidth(n2, bit_width);
+      let normal_add = n1 + n2;
+      let answer;
+      if (normal_add > UMAX) {
+        //overflow, so there are two answers because of wrap around...
+        // problem is which input  comes first..
+        let overflow = normal_add - Math.pow(2, bit_width);
+        answer = `${normal_add},${overflow}`;
+      } else {
+        answer = normal_add.toString();
+      }
 
-            return new Problem("input", `
+      return new Problem(
+        "input",
+        `
             <h2>Given a bit width of ${bit_width}</h2>
             <pre>
               ${b1}
             + ${b2}
             _______
             </pre>
-            Convert the answer to decimal`, `${answer}`, "If there are two answers, write the one with the highest number first comma second answer e.g 10,3");
-        },
-        [{ kind: "article", url: "https://computers404.netlify.app/07-binary_addition" }]
-    ),
-    new ProblemSet(
-        "Decimal to Binary(two's complement)",
-        2.17,
-        10,
-        [],
-        generate_decimal_to_twoscomp,
-    ),
-    new ProblemSet(
-        "Binary(two's complement) to Decimal(unsigned and signed)",
-        2.19,
-        10,
-        [],
-        generate_twoscomp_to_deci,
-    ),
-    new ProblemSet(
-        "Binary Subtraction(two's complement)",
-        2.19,
-        10,
-        [],
-        function gen_sub_problem() {
-            //twos complement only! no need to do unsigned + signed
-            let bit_width = ran_int(4, 6);
-            //this will never overflow! maybe do a seperate exercise about overflow
-            let TMIN = -((Math.pow(2, bit_width) / 2) - 1);
-            let TMAX = ((Math.pow(2, bit_width) / 2));
+            Convert the answer to decimal`,
+        `${answer}`,
+        "If there are two answers, write the one with the highest number first comma second answer e.g 10,3"
+      );
+    },
+    [
+      {
+        kind: "article",
+        url: "https://computers404.netlify.app/07-binary_addition",
+      },
+    ]
+  ),
+  new ProblemSet(
+    "Decimal to Binary(two's complement)",
+    2.17,
+    10,
+    [],
+    generate_decimal_to_twoscomp
+  ),
+  new ProblemSet(
+    "Binary(two's complement) to Decimal(unsigned and signed)",
+    2.19,
+    10,
+    [],
+    generate_twoscomp_to_deci
+  ),
+  new ProblemSet(
+    "Binary Subtraction(two's complement)",
+    2.19,
+    10,
+    [],
+    function gen_sub_problem() {
+      //twos complement only! no need to do unsigned + signed
+      let bit_width = ran_int(4, 6);
+      let TMIN = -(Math.pow(2, bit_width) / 2 - 1);
+      let TMAX = Math.pow(2, bit_width) / 2;
 
-            //decimal
-            let d1 = ran_int(1, TMIN);
-            let d2 = ran_int(1, TMAX);
+      //decimal
+      let d1 = ran_int(-1, TMIN);
+      let d2 = ran_int(1, TMAX);
 
-            let b1 = twos_complement(d1, bit_width);
-            let b2 = twos_complement(d2, bit_width);
+      let b1 = normalize_bwidth(d1, bit_width);
+      let b2 = normalize_bwidth(d2, bit_width);
 
-            let answer = d1 + d2;
+      let answer = d1 + d2;
 
-            return new Problem("input", `
+      return new Problem(
+        "input",
+        `
             <h2>Given a bit width of ${bit_width}, Subtract these two signed numbers</h2>
             <pre>
               ${b1}
             + ${b2}
             _______
             </pre>
-            Write the equivalent equation in decimal`, `${d1}+${d2}=${answer}`, "answer hint: -3+4=1");
-        },
-    ),
+            Write the equivalent equation in decimal`,
+        `${d1}+${d2}=${answer}`,
+        "answer hint: -3+4=1"
+      );
+    }
+  ),
+  new ProblemSet(
+    "Singed Overflow",
+    2.19,
+    10,
+    [],
+    function gen_signed_overflow_prob() {
+      //twos complement only! no need to do unsigned + signed
+      let bit_width = ran_int(4, 6);
+      //this will never overflow! maybe do a seperate exercise about overflow
+      let TMIN = -(Math.pow(2, bit_width) / 2);
+      let TMAX = Math.pow(2, bit_width) / 2 - 1;
+      //decimal
+      let d1;
+      let d2;
+      let b1;
+      let b2;
+      let ran_choice = ran_int(1, 2);
+      let answer;
+      if (ran_choice === 1) {
+        //negative overflow
+        d1 = ran_int(-1, TMIN);
+        d2 = ran_int(-1, TMIN);
+        while (d1 + d2 > TMIN) {
+          d2 = ran_int(-1, TMIN);
+        }
+        b1 = normalize_bwidth(d1, bit_width);
+        b2 = normalize_bwidth(d2, bit_width);
+        answer = parseInt(binary_add(b1, b2), 2);
+      } else {
+        //positive overflow
+        d1 = ran_int(1, TMAX);
+        d2 = ran_int(1, TMAX);
+        while (d1 + d2 <= TMAX) {
+          d2 = ran_int(1, TMAX);
+        }
+        b1 = normalize_bwidth(d1, bit_width);
+        b2 = normalize_bwidth(d2, bit_width);
+        let badd = binary_add(b1, b2);
+        answer = twos_complement_deci(badd, bit_width);
+      }
+
+      /* console.log("b-add " + binary_add(b1, b2)); // 10110 + 11001 WRONG */
+
+      return new Problem(
+        "input",
+        `
+            <h2>Given a bit width of ${bit_width}, Add these two signed numbers</h2>
+            <pre>
+              ${b1}
+            + ${b2}
+            _______
+            </pre>
+            Write the equivalent equation in decimal`,
+        `${d1}+${d2}=${answer}`,
+        "answer hint: -3+4=1"
+      );
+    }
+  ),
 ];
