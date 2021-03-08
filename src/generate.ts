@@ -456,7 +456,7 @@ export let TOC = [
     }
   ),
   new ProblemSet(
-    "Singed Overflow",
+    "Signed Overflow",
     2.19,
     10,
     [],
