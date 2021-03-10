@@ -404,6 +404,10 @@ export let TOC = [
         kind: "article",
         url: "https://computers404.netlify.app/07-binary_addition",
       },
+      {
+        kind: "video",
+        url: "https://youtu.be/_XEl45i8YqM",
+      },
     ]
   ),
   new ProblemSet(
@@ -411,14 +415,28 @@ export let TOC = [
     2.17,
     10,
     [],
-    generate_decimal_to_twoscomp
+    generate_decimal_to_twoscomp,
+    [
+      {
+        kind: "article",
+        url: "https://computers404.ml/07-negative_numbers_twos_complement",
+      },
+      { kind: "video", url: "https://youtu.be/Q32TDUTGfQM" },
+    ]
   ),
   new ProblemSet(
-    "Binary(two's complement) to Decimal(unsigned and signed)",
+    "Binary to Decimal(unsigned and signed twos compl)",
     2.19,
     10,
     [],
-    generate_twoscomp_to_deci
+    generate_twoscomp_to_deci,
+    [
+      {
+        kind: "article",
+        url: "https://computers404.ml/07-negative_numbers_twos_complement",
+      },
+      { kind: "video", url: "https://youtu.be/Q32TDUTGfQM" },
+    ]
   ),
   new ProblemSet(
     "Binary Subtraction(two's complement)",
